@@ -12,56 +12,56 @@ namespace PeopleApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class PeopleController : Controller
+    public class RatingsController : Controller
     {
         private readonly PeopleDbContext _context;
 
-        public PeopleController(PeopleDbContext context)
+        public RatingsController(PeopleDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/People
+        // GET: api/Ratings
         [HttpGet]
-        public IEnumerable<Person> GetPeople()
+        public IEnumerable<Rating> GetRating()
         {
-            return _context.Person;
+            return _context.Rating;
         }
 
-        // GET: api/People/5
+        // GET: api/Ratings/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPerson([FromRoute] int id)
+        public async Task<IActionResult> GetRating([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var person = await _context.Person.FindAsync(id);
+            var rating = await _context.Rating.FindAsync(id);
 
-            if (person == null)
+            if (rating == null)
             {
                 return NotFound();
             }
 
-            return Ok(person);
+            return Ok(rating);
         }
 
-        // PUT: api/People/5
+        // PUT: api/Ratings/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson([FromRoute] int id, [FromBody] Person person)
+        public async Task<IActionResult> PutRating([FromRoute] int id, [FromBody] Rating rating)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != person.ID)
+            if (id != rating.PersonID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(person).State = EntityState.Modified;
+            _context.Entry(rating).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace PeopleApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PersonExists(id))
+                if (!RatingExists(id))
                 {
                     return NotFound();
                 }
@@ -82,23 +82,23 @@ namespace PeopleApi.Controllers
             return NoContent();
         }
 
-        // POST: api/People
+        // POST: api/Ratings
         [HttpPost]
-        public async Task<IActionResult> PostPerson([FromBody] Person person)
+        public async Task<IActionResult> PostRating([FromBody] Rating rating)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Person.Add(person);
+            _context.Rating.Add(rating);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (PersonExists(person.ID))
+                if (RatingExists(rating.PersonID))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -108,33 +108,33 @@ namespace PeopleApi.Controllers
                 }
             }
 
-            return CreatedAtAction("GetPerson", new { id = person.ID }, person);
+            return CreatedAtAction("GetRating", new { id = rating.PersonID }, rating);
         }
 
-        // DELETE: api/People/5
+        // DELETE: api/Ratings/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePerson([FromRoute] int id)
+        public async Task<IActionResult> DeleteRating([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var person = await _context.Person.FindAsync(id);
-            if (person == null)
+            var rating = await _context.Rating.FindAsync(id);
+            if (rating == null)
             {
                 return NotFound();
             }
 
-            _context.Person.Remove(person);
+            _context.Rating.Remove(rating);
             await _context.SaveChangesAsync();
 
-            return Ok(person);
+            return Ok(rating);
         }
 
-        private bool PersonExists(int id)
+        private bool RatingExists(int id)
         {
-            return _context.Person.Any(e => e.ID == id);
+            return _context.Rating.Any(e => e.PersonID == id);
         }
     }
 }
