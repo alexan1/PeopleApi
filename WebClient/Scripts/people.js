@@ -18,7 +18,7 @@ function AppViewModel() {
     //    var currentVal = this.lastName();        // Read the current value
     //    this.lastName(currentVal.toUpperCase());
     //};
-};
+}
 
 // Activates knockout.js
 ko.applyBindings(new AppViewModel());

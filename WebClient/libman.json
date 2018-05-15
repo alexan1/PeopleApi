@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.3.1",      
+      "destination": "lib/jquery/"
+    },
+    {
+      "library": "twitter-bootstrap@4.1.1",
+      "destination": "lib/bootstrap"
+    },
+    {
+      "library": "knockout@3.4.2",
+      "destination": "lib/knockout"
+    },
+    {
+      "library": "require.js@2.3.5",
+      "destination": "lib/require"
+    }
+
+  ]
+}

@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <title>The People Rating</title>
-    
+
+    <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
     <h1>The People Rating</h1>
@@ -12,12 +13,13 @@
 
     <p><a data-bind="attr: {href:link}"><img data-bind="attr: {src: image}" /></a></p>
     <p data-bind="text: name" />
-    <p data-bind="text: life" />   
+    <p data-bind="text: life" />
     <p data-bind="text: description" />
     <p> Rating: <strong data-bind="text: rating"></strong></p>
-    
 
-    <script src="Scripts/knockout-3.4.2.debug.js"></script>
+    <script src="lib/jquery/jquery.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
+    <script src="lib/knockout/knockout-debug.js"></script>
     <script src="Scripts/people.js"></script>
 </body>
 </html>
