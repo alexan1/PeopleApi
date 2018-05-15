@@ -10,9 +10,9 @@ function AppViewModel() {
     this.rating = ko.observable("7");
 
 
-    //this.fullName = ko.computed(function () {
-    //    return this.firstName() + " " + this.lastName();
-    //}, this);
+    this.life = ko.computed(function () {
+        return this.birth() + " - " + this.death();
+    }, this);
 
     //this.capitalizeLastName = function () {
     //    var currentVal = this.lastName();        // Read the current value
