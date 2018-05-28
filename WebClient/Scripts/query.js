@@ -32,24 +32,24 @@
                     console.log(results[0].RIP);
 
                     for (var i = 0; i < results.length; i++) {
-                        if (typeof (results[i].image) != 'undefined') {
+                        if (typeof results[i].image !== 'undefined') {
                             var image = '<img class="inline" src=' + results[i].image.value + ' height="100">';
                             articles1.append(image);
                             articles1.append('<br>');
                         }
                         articles1.append(results[i].itemLabel.value);
                         articles1.append('<br>');
-                        if (typeof (results[i].DR) != 'undefined') {
+                        if (typeof results[i].DR !== 'undefined') {
                             var dr = new Date(results[i].DR.value);
                             articles1.append(dr.getFullYear());
-                            if (typeof (results[i].RIP) != 'undefined') {
+                            if (typeof results[i].RIP !== 'undefined') {
                                 var rip = new Date(results[i].RIP.value);
                                 articles1.append(' - ');
                                 articles1.append(rip.getFullYear());
                             }
                             articles1.append('<br>');
                         }
-                        if (typeof (results[i].itemDescription) != 'undefined') {
+                        if (typeof results[i].itemDescription !== 'undefined') {
                             articles1.append(results[i].itemDescription.value);
                         }
                         articles1.append('<br><br>');
@@ -66,11 +66,11 @@
             },
             timeout: 3000
         });
-    })
+    });
 
     $('#person').keypress(function (e) {
-        if (e.which == 13) {//Enter key pressed
+        if (e.which === 13) {//Enter key pressed
             $('#search').click();
         }
     });
-})
+});
