@@ -31,7 +31,8 @@ function getPerson2() {
     var queryUrl = encodeURI(url + '?query=' + query + '&format=json');
 
     fetch(queryUrl)
-        .then(response => response.json())
+        .then(response => response.json())        
+        .then(data => data.results.bindings[0])
         .then(data => console.log(data));
 }
 
