@@ -23,46 +23,28 @@ function AppViewModel() {
 // Activates knockout.js
 ko.applyBindings(new AppViewModel());
 
-function GetWikiPerson() {
+var id = 'Q7747';
+GetWikiPerson(id);
+
+function GetWikiPerson(qid) {
     var url = "https://query.wikidata.org/sparql";
+    var personId = "http://www.wikidata.org/entity/" + qid;
 
     var query = 'SELECT DISTINCT  ?item ?itemLabel ?itemDescription (SAMPLE(?DR) AS ?DRSample) (SAMPLE(?article) AS ?articleSample)'
         + 'WHERE{ ?article  schema:about       ?item ; schema:inLanguage  "en" ; schema:isPartOf    <https://en.wikipedia.org/>'
-        + 'FILTER ( ?item = <http://www.wikidata.org/entity/Q937> )'
+        + 'FILTER ( ?item = <"' + personId + '">'
         + 'OPTIONAL { ?item  wdt:P569  ?DR }'
         + 'OPTIONAL { ?item  wdt:P570  ?RIP }'
         + 'OPTIONAL { ?item  wdt:P18  ?image }'
         + 'SERVICE wikibase:label { bd:serviceParam wikibase:language  "en"}}'
         + 'GROUP BY ?item ?itemLabel ?itemDescription';
 
-    //var queryUrl = encodeURI(url + query);
-    var queryUrl = encodeURI(url + "?query=" + query);
+    var queryUrl = encodeURI(url + '?query=' + query + '&format=json');
 
-    var query1 = 'https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q937&format=json';
-    //fetch(queryUrl, {
-    //    mode: 'no-cors'
-    //}).then(response => response.json())
-    //    .then(data => console.log(data));
-
-    //fetch(queryUrl, {
-    //    mode: 'no-cors'
-    //}).then(function (response) {
-    //    return response.json
-    //    })
-    //    .then(function (myJson) {
-    //        console.log(myJson.length);
-    //    });
-
-    //var url = wdk.sparqlQuery(query);
-
-
-    // see the "SPARQL Query" section above
-    var url = wdk.sparqlQuery(query)
-    fetch(url)
-        .then(wdk.simplifySparqlResults)
-        .then(simplifiedResults => console.log(simplifiedResults));
-
-    //console.log(url);
+    fetch(queryUrl)
+        .then(response => response.json())
+        .then(data => data.results.bindings[0])
+        .then(data => console.log(data));
 
 }
 

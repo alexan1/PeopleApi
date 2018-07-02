@@ -33,7 +33,7 @@ function getPerson2() {
     fetch(queryUrl)
         .then(response => response.json())        
         .then(data => data.results.bindings[0])
-        .then(data => console.log(data));
+        .then(data => console.table(data));
 }
 
 function getPerson3() {

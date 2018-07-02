@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PeopleApi.Data;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace PeopleApi
 {
@@ -28,9 +29,15 @@ namespace PeopleApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PeopleDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "People API", Version = "v1" });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +53,14 @@ namespace PeopleApi
             }
 
             app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "People API V1");
+                c.RoutePrefix = string.Empty;
+            });
             app.UseMvc();
+            
         }
     }
 }
