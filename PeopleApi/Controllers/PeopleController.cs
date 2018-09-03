@@ -12,7 +12,8 @@ namespace PeopleApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class PeopleController : Controller
+    [ApiController]
+    public class PeopleController : ControllerBase
     {
         private readonly PeopleDbContext _context;
 
