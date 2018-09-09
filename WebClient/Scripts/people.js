@@ -24,7 +24,7 @@ function AppViewModel() {
 ko.applyBindings(new AppViewModel());
 
 var id = 'Q7747';
-GetWikiPerson(id);
+//GetWikiPerson(id);
 
 function GetWikiPerson(qid) {
     var url = "https://query.wikidata.org/sparql";
