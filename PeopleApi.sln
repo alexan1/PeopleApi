@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27701.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleApi", "PeopleApi\PeopleApi.csproj", "{FF67B651-B0E9-48AB-9078-865DD1F4AFA5}"
 EndProject
@@ -23,8 +23,11 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebClient", "WebClient\", "
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "65493"
+		SlnRelativePath = "WebClient\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleTests", "PeopleTests\PeopleTests.csproj", "{FA9979A0-0C3A-4FF5-8DD5-EE766DDB0B71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +43,10 @@ Global
 		{AF3363CD-02A3-49DF-86A0-7E8B05B70CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF3363CD-02A3-49DF-86A0-7E8B05B70CD0}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF3363CD-02A3-49DF-86A0-7E8B05B70CD0}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{FA9979A0-0C3A-4FF5-8DD5-EE766DDB0B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA9979A0-0C3A-4FF5-8DD5-EE766DDB0B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA9979A0-0C3A-4FF5-8DD5-EE766DDB0B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA9979A0-0C3A-4FF5-8DD5-EE766DDB0B71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

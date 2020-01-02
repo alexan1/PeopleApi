@@ -20,7 +20,7 @@ namespace PeopleApi.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Rating>()
-        .HasKey(a => new { a.PersonID, a.UserID });
+                .HasKey(a => new { a.PersonID, a.UserID });
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
