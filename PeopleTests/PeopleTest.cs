@@ -18,13 +18,17 @@ namespace PeopleTests
             //context.Setup(x => x.Person.Add(It.IsAny<Person>())).Returns((Person u) => u);
 
 
-            context.Setup(x => x.Set<Person>())
-                //.Returns(new DbSet<Person>
-                //{
-                //    new Person { ID = 1, Name = "Fake Person" }
-                //});
+            //context.Setup(x => x.Person)
+            //    .Returns(new Person
+            //    {
+            //         DbSet<Person> { ID = 1, Name = "Fake Person" }
+            //    });
 
             var controller = new PeopleApi.Controllers.PeopleController(context.Object);
+
+            var result = controller.GetPeople();
+
+            Assert.IsNotNull(result);
         }
     }
 }
