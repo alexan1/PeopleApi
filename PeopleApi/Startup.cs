@@ -22,8 +22,7 @@ namespace PeopleApi
         {
             services.AddDbContext<PeopleDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
