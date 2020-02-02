@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -25,19 +26,19 @@ namespace PeopleApi.Controllers
         [HttpGet]
         public IEnumerable<Person> GetPeople()
         {
-            return _context.Person;
+            return _context.Person.Include(person => person.Rate);
         }
 
         // GET: api/People/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPerson([FromRoute] int id)
+        public IActionResult GetPerson([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var person = await _context.Person.FindAsync(id);
+            var person = _context.Person.Include(person => person.Rate).Single(p => p.ID == 1);
 
             if (person == null)
             {
@@ -106,6 +107,10 @@ namespace PeopleApi.Controllers
                 {
                     throw;
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
             }
 
             return CreatedAtAction("GetPerson", new { id = person.ID }, person);
