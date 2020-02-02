@@ -24,21 +24,21 @@ namespace PeopleApi.Controllers
 
         // GET: api/People
         [HttpGet]
-        public IEnumerable<Person> GetPeople()
+        public async Task<IEnumerable<Person>> GetPeople()
         {
-            return _context.Person.Include(person => person.Rate);
+            return await _context.Person.Include(person => person.Rate).ToListAsync<Person>().ConfigureAwait(false);
         }
 
         // GET: api/People/5
         [HttpGet("{id}")]
-        public IActionResult GetPerson([FromRoute] int id)
+        public async Task<IActionResult> GetPerson([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var person = _context.Person.Include(person => person.Rate).Single(p => p.ID == 1);
+            var person = await _context.Person.Include(person => person.Rate).FirstAsync(p => p.ID == 1).ConfigureAwait(false);
 
             if (person == null)
             {
@@ -66,7 +66,7 @@ namespace PeopleApi.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync().ConfigureAwait(false);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -137,7 +137,7 @@ namespace PeopleApi.Controllers
             return Ok(person);
         }
 
-        public bool PersonExists(int id)
+        private bool PersonExists(int id)
         {
             return _context.Person.Any(e => e.ID == id);
         }

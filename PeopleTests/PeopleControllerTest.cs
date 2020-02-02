@@ -33,10 +33,10 @@ namespace PeopleTests
 
                 var controller = new PeopleApi.Controllers.PeopleController(context);
 
-                if (controller.PersonExists(1))
+                //if (controller.PersonExists(1))
                     _ = controller.DeletePerson(1);
 
-                if (controller.PersonExists(2))
+                //if (controller.PersonExists(2))
                     _ = controller.DeletePerson(2);
 
                 var action1 = controller.PostPerson(person1);
@@ -45,7 +45,7 @@ namespace PeopleTests
                 //Assert.AreEqual(TaskStatus.RanToCompletion, action2.Status);
 
                 var result = controller.GetPeople();
-                var count = result.Count();
+                var count = result.Result.Count();
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(2, count);
@@ -71,13 +71,13 @@ namespace PeopleTests
                 var person = new Person { ID = 1, Name = "Putin", Rate = null };                
 
                 var controller = new PeopleApi.Controllers.PeopleController(context);
-                if (controller.PersonExists(1))
+                //if (controller.PersonExists(1))
                     _ = controller.DeletePerson(1);
 
                 var action = controller.PostPerson(person);
                 Assert.AreEqual(TaskStatus.RanToCompletion, action.Status);
 
-                var result = controller.GetPerson(1);
+                var result = controller.GetPerson(1).Result;
 
                 var okResult = result as OkObjectResult;
                 var personR = okResult.Value as Person;
