@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PeopleApi.Data;
@@ -53,14 +54,22 @@ namespace PeopleTests
 
             using (var context = new PeopleDbContext(options))
             {
-                var person = new Person { ID = 1, Name = "Putin", Rate = null };
-                context.Person.Add(person);
-                context.SaveChanges();
+
+                var person = new Person { ID = 1, Name = "Putin", Rate = null };                
 
                 var controller = new PeopleApi.Controllers.PeopleController(context);
+                if (controller.PersonExists(1))
+                    _ = controller.DeletePerson(1);
+
+                var action = controller.PostPerson(person);
+                Assert.AreEqual(TaskStatus.RanToCompletion, action.Status);
+
                 var result = controller.GetPerson(1).Result;
-                var resultPerson = JsonSerializer.Deserialize<Person>(result.ToString());
-                Assert.AreEqual(person, resultPerson);
+
+                var okResult = result as OkObjectResult;
+                var personR = okResult.Value as Person;
+                
+                Assert.AreEqual(person, personR);
             }
         }
     }

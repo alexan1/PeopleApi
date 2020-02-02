@@ -132,7 +132,7 @@ namespace PeopleApi.Controllers
             return Ok(person);
         }
 
-        private bool PersonExists(int id)
+        public bool PersonExists(int id)
         {
             return _context.Person.Any(e => e.ID == id);
         }
