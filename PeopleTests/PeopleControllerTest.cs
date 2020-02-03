@@ -5,7 +5,6 @@ using PeopleApi.Data;
 using PeopleApi.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PeopleTests
 {
@@ -31,13 +30,15 @@ namespace PeopleTests
 
             var controller = new PeopleApi.Controllers.PeopleController(context);
 
-            var action1 = controller.PostPerson(person1);
-            Assert.AreEqual(TaskStatus.RanToCompletion, action1.Status);
-            var action2 = controller.PostPerson(person2);
-            Assert.AreEqual(TaskStatus.RanToCompletion, action2.Status);
-
-            var result = controller.GetPeople();
-            var count = result.Result.Count();
+            var action1 = controller.PostPerson(person1);                   
+            Assert.IsInstanceOfType(action1.Result, typeof(CreatedAtActionResult));
+            var action2 = controller.PostPerson(person2);            
+            Assert.IsInstanceOfType(action2.Result, typeof(CreatedAtActionResult));
+            var result = controller.GetPeople().Result;
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = result as OkObjectResult;
+            var people = okResult.Value as IEnumerable<Person>;
+            var count = people.Count();
 
             Assert.IsNotNull(result);
             Assert.AreEqual(2, count);
@@ -56,10 +57,10 @@ namespace PeopleTests
             var controller = new PeopleApi.Controllers.PeopleController(context);
 
             var action = controller.PostPerson(person);
-            Assert.AreEqual(TaskStatus.RanToCompletion, action.Status);
+            Assert.IsInstanceOfType(action.Result, typeof(CreatedAtActionResult));            
 
             var result = controller.GetPerson(1).Result;
-
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             var okResult = result as OkObjectResult;
             var personR = okResult.Value as Person;
 

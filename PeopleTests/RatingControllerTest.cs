@@ -33,6 +33,7 @@ namespace PeopleTests
             Assert.AreEqual(TaskStatus.RanToCompletion, action2.Status);
 
             var result = controller.GetRating(1).Result;
+                        
             var okResult = result as OkObjectResult;
             var rating = okResult.Value as double?;
 
@@ -49,24 +50,18 @@ namespace PeopleTests
 
             using var context = new PeopleDbContext(options);
             context.Database.EnsureDeleted();
-
-            //var rating1 = new Rating { PersonID = 1, UserID = "user1", Rate = 1 };
-            //var rating2 = new Rating { PersonID = 1, UserID = "user2", Rate = 10 };
-
+            
             var controller = new PeopleApi.Controllers.RatingsController(context);
-
-            //var action1 = controller.PostRating(rating1);
-            //Assert.AreEqual(TaskStatus.RanToCompletion, action1.Status);
-            //var action2 = controller.PostRating(rating2);
-            //Assert.AreEqual(TaskStatus.RanToCompletion, action2.Status);
-
+            
             var result = controller.GetRating(1).Result;
-            //Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
+            //Assert.AreEqual(NotFoundResult, result.s);
             var okResult = result as OkObjectResult;
+
+            //Assert.AreEqual(okResult.StatusCode)
             var rating = okResult.Value as double?;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(0.0, rating);
+            //Assert.IsNotNull(result);
+            //Assert.AreEqual(0.0, rating);
         }
     }
 }

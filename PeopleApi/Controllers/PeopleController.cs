@@ -24,9 +24,10 @@ namespace PeopleApi.Controllers
 
         // GET: api/People
         [HttpGet]
-        public async Task<IEnumerable<Person>> GetPeople()
+        public async Task<IActionResult> GetPeople()
         {
-            return await _context.Person.Include(person => person.Rate).ToListAsync<Person>().ConfigureAwait(false);
+            var result = await _context.Person.Include(person => person.Rate).ToListAsync<Person>().ConfigureAwait(false);
+            return Ok(result);
         }
 
         // GET: api/People/5

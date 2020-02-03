@@ -30,23 +30,19 @@ namespace PeopleApi.Controllers
 
         // GET: api/Ratings/5
         [HttpGet("{id}")]
-        public async Task<double?> GetRating([FromRoute] int id)
+        public async Task<IActionResult> GetRating([FromRoute] int id)
         {
             double? rating = 0.0;
             try
             {
                 rating = await _context.Rating.Where(rate => rate.PersonID == id).AverageAsync<Rating>(rate => rate.Rate);
             }
-            catch (Exception ex)
+            catch (InvalidOperationException)
             {
-                Console.WriteLine(ex);                
-            }
-            //if (rating == null)
-            //{
-            //    return NotFound();
-            //}
+                return NotFound();
+            }         
 
-            return rating;
+            return Ok(rating);
             }
 
         // PUT: api/Ratings/5
