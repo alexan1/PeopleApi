@@ -19,44 +19,28 @@ namespace PeopleTests
                 .UseInMemoryDatabase(databaseName: "PeopleTestDb")
                 .Options;
 
-            using (var context = new PeopleDbContext(options))
-            {
+            using var context = new PeopleDbContext(options);
+            context.Database.EnsureDeleted();
 
-                var rates = new List<Rating>()
+            var rates = new List<Rating>()
                 { new Rating { PersonID = 1, UserID = "user1", Rate = 1 },
                 new Rating { PersonID = 1, UserID = "user2", Rate = 10 } };
 
-                var person1 = new Person { ID = 1, Name = "Putin", Rate = rates };                 
+            var person1 = new Person { ID = 1, Name = "Putin", Rate = rates };
+            var person2 = new Person { ID = 2, Name = "Trump", Rate = null };
 
-                  
-                var person2 = new Person { ID = 2, Name = "Trump", Rate = null };                
+            var controller = new PeopleApi.Controllers.PeopleController(context);
 
-                var controller = new PeopleApi.Controllers.PeopleController(context);
+            var action1 = controller.PostPerson(person1);
+            Assert.AreEqual(TaskStatus.RanToCompletion, action1.Status);
+            var action2 = controller.PostPerson(person2);
+            Assert.AreEqual(TaskStatus.RanToCompletion, action2.Status);
 
-                //if (controller.PersonExists(1))
-                    _ = controller.DeletePerson(1);
+            var result = controller.GetPeople();
+            var count = result.Result.Count();
 
-                //if (controller.PersonExists(2))
-                    _ = controller.DeletePerson(2);
-
-                var action1 = controller.PostPerson(person1);
-                //Assert.AreEqual(TaskStatus.RanToCompletion, action1.Status);
-                var action2 = controller.PostPerson(person2);
-                //Assert.AreEqual(TaskStatus.RanToCompletion, action2.Status);
-
-                var result = controller.GetPeople();
-                var count = result.Result.Count();
-
-                Assert.IsNotNull(result);
-                Assert.AreEqual(2, count);
-
-                var action3 = controller.DeletePerson(1);
-                Assert.AreEqual(TaskStatus.RanToCompletion, action3.Status);
-                var action4 = controller.DeletePerson(2);
-                Assert.AreEqual(TaskStatus.RanToCompletion, action4.Status);
-
-
-            }
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, count);
         }
         [TestMethod]
         public void GetPersonTest()
@@ -65,25 +49,21 @@ namespace PeopleTests
                 .UseInMemoryDatabase(databaseName: "PeopleTestDb")
                 .Options;
 
-            using (var context = new PeopleDbContext(options))
-            {
+            using var context = new PeopleDbContext(options);
+            context.Database.EnsureDeleted();
+            var person = new Person { ID = 1, Name = "Putin", Rate = null };
 
-                var person = new Person { ID = 1, Name = "Putin", Rate = null };                
+            var controller = new PeopleApi.Controllers.PeopleController(context);
 
-                var controller = new PeopleApi.Controllers.PeopleController(context);
-                //if (controller.PersonExists(1))
-                    _ = controller.DeletePerson(1);
+            var action = controller.PostPerson(person);
+            Assert.AreEqual(TaskStatus.RanToCompletion, action.Status);
 
-                var action = controller.PostPerson(person);
-                Assert.AreEqual(TaskStatus.RanToCompletion, action.Status);
+            var result = controller.GetPerson(1).Result;
 
-                var result = controller.GetPerson(1).Result;
+            var okResult = result as OkObjectResult;
+            var personR = okResult.Value as Person;
 
-                var okResult = result as OkObjectResult;
-                var personR = okResult.Value as Person;
-                
-                Assert.AreEqual(person, personR);
-            }
+            Assert.AreEqual(person, personR);
         }
     }
 }

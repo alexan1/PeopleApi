@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -29,22 +30,24 @@ namespace PeopleApi.Controllers
 
         // GET: api/Ratings/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRating([FromRoute] int id)
+        public async Task<double?> GetRating([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
+            double? rating = 0.0;
+            try
             {
-                return BadRequest(ModelState);
+                rating = await _context.Rating.Where(rate => rate.PersonID == id).AverageAsync<Rating>(rate => rate.Rate);
             }
-
-            var rating = await _context.Rating.FindAsync(id);
-
-            if (rating == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                Console.WriteLine(ex);                
             }
+            //if (rating == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return Ok(rating);
-        }
+            return rating;
+            }
 
         // PUT: api/Ratings/5
         [HttpPut("{id}")]
