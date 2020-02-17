@@ -5,6 +5,7 @@ using PeopleApi.Data;
 using PeopleApi.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace PeopleTests
@@ -54,14 +55,11 @@ namespace PeopleTests
             var controller = new PeopleApi.Controllers.RatingsController(context);
             
             var result = controller.GetRating(1).Result;
-            //Assert.AreEqual(NotFoundResult, result.s);
-            var okResult = result as OkObjectResult;
 
-            //Assert.AreEqual(okResult.StatusCode)
-            var rating = okResult.Value as double?;
+            Assert.IsNotNull(result);
 
-            //Assert.IsNotNull(result);
-            //Assert.AreEqual(0.0, rating);
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            
         }
     }
 }
