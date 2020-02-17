@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PeopleApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PeopleApi.Data
 {
@@ -12,6 +8,10 @@ namespace PeopleApi.Data
     {
         public PeopleDbContext(DbContextOptions<PeopleDbContext> options)
             : base(options)
+        {
+        }
+
+        public PeopleDbContext(Func<object, object> p)
         {
         }
 

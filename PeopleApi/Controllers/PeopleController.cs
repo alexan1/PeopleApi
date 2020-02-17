@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -23,9 +23,10 @@ namespace PeopleApi.Controllers
 
         // GET: api/People
         [HttpGet]
-        public IEnumerable<Person> GetPeople()
+        public async Task<IActionResult> GetPeople()
         {
-            return _context.Person;
+            var result = await _context.Person.Include(person => person.Rate).ToListAsync<Person>().ConfigureAwait(false);
+            return Ok(result);
         }
 
         // GET: api/People/5
@@ -37,7 +38,7 @@ namespace PeopleApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var person = await _context.Person.FindAsync(id);
+            var person = await _context.Person.Include(person => person.Rate).FirstAsync(p => p.ID == 1).ConfigureAwait(false);
 
             if (person == null)
             {
@@ -65,7 +66,7 @@ namespace PeopleApi.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync().ConfigureAwait(false);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -106,6 +107,10 @@ namespace PeopleApi.Controllers
                 {
                     throw;
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
             }
 
             return CreatedAtAction("GetPerson", new { id = person.ID }, person);
