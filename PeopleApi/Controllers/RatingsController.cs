@@ -39,7 +39,7 @@ namespace PeopleApi.Controllers
             }
             catch (InvalidOperationException)
             {
-                return NotFound();
+                return Ok(null);
             }         
 
             return Ok(rating);

@@ -53,10 +53,11 @@ namespace PeopleTests
             
             var result = controller.GetRating(1).Result;
 
-            Assert.IsNotNull(result);
+            var okResult = result as OkObjectResult;
+            var rating = okResult.Value as double?;
 
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-            
+            Assert.IsNull(rating);            
+
         }
     }
 }
