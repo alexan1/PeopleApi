@@ -56,7 +56,7 @@ namespace PeopleTests
             var okResult = result as OkObjectResult;
             var rating = okResult.Value as double?;
 
-            Assert.IsNull(rating);            
+            Assert.AreEqual(0.0, rating);            
 
         }
     }
