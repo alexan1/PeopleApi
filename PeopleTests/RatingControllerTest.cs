@@ -56,8 +56,29 @@ namespace PeopleTests
             var okResult = result as OkObjectResult;
             var rating = okResult.Value as double?;
 
-            Assert.AreEqual(0.0, rating);            
+            Assert.AreEqual(0.0, rating);
+        }
 
+        [TestMethod]
+        public void PostPersonRatingTest()
+        {
+            var options = new DbContextOptionsBuilder<PeopleDbContext>()
+                .UseInMemoryDatabase(databaseName: "PeopleTestDb")
+                .Options;
+
+            using var context = new PeopleDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var controller = new PeopleApi.Controllers.RatingsController(context);
+            var userID = "anonymous";
+            var rating = new Rating(){ PersonID = 1, UserID = userID, Rate = 7 };
+
+            var result = controller.PostRating(rating).Result;
+
+            var okResult = result as OkObjectResult;
+            var rat = okResult.Value as bool?;
+
+            Assert.AreEqual(0.0, rating);
         }
     }
 }
