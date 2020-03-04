@@ -77,10 +77,13 @@ namespace PeopleTests
 
             Assert.AreEqual(TaskStatus.RanToCompletion, result.Status);
 
-            //var okResult = result as OkObjectResult;
-            //var rat = okResult.Value as bool?;
+            var result1 = controller.GetRating(1).Result;
 
-            //Assert.AreEqual(0.0, rating);
+            var okResult = result1 as OkObjectResult;
+            var rating1 = okResult.Value as double?;
+
+            Assert.IsNotNull(result1);
+            Assert.AreEqual(7, rating1);            
         }
     }
 }
