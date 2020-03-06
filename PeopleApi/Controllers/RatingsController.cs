@@ -94,7 +94,7 @@ namespace PeopleApi.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
                 if (RatingExists(rating.PersonID))
                 {
@@ -102,6 +102,7 @@ namespace PeopleApi.Controllers
                 }
                 else
                 {
+                    Console.WriteLine(e);
                     throw;
                 }
             }
